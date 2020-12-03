@@ -13,7 +13,7 @@
 //Include All Peripheral Libraries Used By LINX
 #include <SPI.h>
 #include <Wire.h>
-#include <EEPROM.h>
+//#include <EEPROM.h>
 #include <Servo.h>
 
 //Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
