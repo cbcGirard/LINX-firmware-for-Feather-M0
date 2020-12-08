@@ -38,6 +38,10 @@
 // #include <EEPROM.h>
 #include <Servo.h>
 
+
+//TODO: figure out a better solution for M0 to coexist...
+#define Serial SerialUSB
+
 /****************************************************************************************
 **  Variables
 ****************************************************************************************/		
