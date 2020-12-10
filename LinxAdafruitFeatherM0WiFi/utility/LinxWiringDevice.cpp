@@ -35,12 +35,13 @@
 
 #include <SPI.h>
 #include <Wire.h>
-// #include <EEPROM.h>
 #include <Servo.h>
 
 
 //TODO: figure out a better solution for M0 to coexist...
+#ifdef SerialUSB
 #define Serial SerialUSB
+#endif
 
 /****************************************************************************************
 **  Variables
