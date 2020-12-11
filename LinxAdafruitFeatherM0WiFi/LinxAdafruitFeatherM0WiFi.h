@@ -1,10 +1,10 @@
 /****************************************************************************************
-**  LINX header for AdafruitFeatherM0 Teensy 3.1
+**  LINX header for AdafruitFeatherM0
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Sam Kristoff, modified by CBC Girard
 **
 ** BSD2 License.
 ****************************************************************************************/	
@@ -21,6 +21,11 @@
 #define AI_RES_BITS 12
 #define AI_REFV 3300000
 #define NUM_AI_INT_REFS 0
+
+#define NUM_AO_CHANS 1
+#define AO_RES_BITS 10
+#define AO_REFV 3300000
+#define NUM_AO_INT_REFS 0
 
 #define NUM_DIGITAL_CHANS 20
 
@@ -57,8 +62,10 @@ class LinxAdafruitFeatherM0WiFi : public LinxAdafruitFeatherM0
 		static const unsigned long m_AiRefIntVals[NUM_AI_INT_REFS];
 		static const int m_AiRefCodes[NUM_AI_INT_REFS];
 		
-		//AI
-		//None
+		//AO
+		static const unsigned char m_AoChans[NUM_AO_CHANS];
+		static const unsigned long m_AoRefIntVals[NUM_AO_INT_REFS];
+		static const int m_AoRefCodes[NUM_AO_INT_REFS];
 		
 		//DIGITAL
 		static const unsigned char m_DigitalChans[NUM_DIGITAL_CHANS];	

@@ -42,18 +42,17 @@
 #endif
 
 //SPI
-// #ifndef LSBFIRST
-// 	#define LSBFIRST 0
-// #endif
+#ifndef IS_M0
 
-// #ifndef MSBFIRST
-// 	#define MSBFIRST 1
-// #endif
+#ifndef LSBFIRST
+	#define LSBFIRST 0
+#endif
 
-// enum BitOrder {
-// 	LSBFIRST = 0,
-// 	MSBFIRST = 1
-// };
+#ifndef MSBFIRST
+	#define MSBFIRST 1
+#endif
+
+#endif
 
 //I2C
 #define EOF_STOP 0
@@ -242,7 +241,10 @@ class LinxDevice
 		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;
 		virtual int AnalogReadNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values);		//Values Are ADC Ticks And Not Bit Packed
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage) = 0;
-		
+
+		virtual int AnalogWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;				//Values Are Bit Packed
+		virtual int AnalogWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values);		//Values Are Not Bit Packed
+			
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values) = 0;				//Values Are Bit Packed
 		virtual int DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values);		//Values Are Not Bit Packed

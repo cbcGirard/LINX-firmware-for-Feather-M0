@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX - AdafruitM0 family
+**  LINX - AdafruitFeatherM0 family
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -19,5 +19,5 @@
 ****************************************************************************************/
 LinxAdafruitFeatherM0::LinxAdafruitFeatherM0()
 {
-	DeviceFamily = 0x08;	//AdafruitM0 Family Code
+	DeviceFamily = 0xFF;	//AdafruitFeatherM0 Family Code
 }

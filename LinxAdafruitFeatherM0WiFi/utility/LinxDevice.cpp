@@ -93,6 +93,11 @@ int LinxDevice::AnalogReadNoPacking(unsigned char numChans, unsigned char* chann
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
+int LinxDevice::AnalogWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned long* values)
+{
+	return L_FUNCTION_NOT_SUPPORTED;
+}
+
 
 //--------------------------------------------------------Digital-------------------------------------------------------
 int LinxDevice::DigitalWriteNoPacking(unsigned char numChans, unsigned char* channels, unsigned char* values)

@@ -35,13 +35,12 @@
 
 #include <SPI.h>
 #include <Wire.h>
-#include <Servo.h>
-
-
-//TODO: figure out a better solution for M0 to coexist...
-#ifdef SerialUSB
-#define Serial SerialUSB
+#ifndef IS_M0
+#include <EEPROM.h>
+#else
+#include <FlashAsEEPROM.h>
 #endif
+#include <Servo.h>
 
 /****************************************************************************************
 **  Variables
@@ -180,6 +179,63 @@ int LinxWiringDevice::AnalogSetRef(unsigned char mode, unsigned long voltage)
 	return L_FUNCTION_NOT_SUPPORTED;
 }
 
+int LinxWiringDevice::AnalogWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
+{
+	unsigned int outputValue=0;
+	unsigned char packetByteOffset=0;
+	unsigned char packetBitsRemaining=8;
+	unsigned char outputBitsRemaining=AoResolution;
+	unsigned char currentByte=0;
+
+
+	for(int i=0; i<numChans; i++)
+	{
+		outputBitsRemaining=AoResolution;
+		outputValue=0;
+
+		while (outputBitsRemaining>0)
+		{
+			currentByte=*(values+packetByteOffset);
+
+			// Serial1.print("Current byte=");
+			// Serial1.println(currentByte,HEX);
+			// Serial1.print(outputValue,HEX);
+			// Serial1.print("->");
+			if (outputBitsRemaining>8)
+			{
+				//take whole byte
+			outputValue|=(unsigned int) (currentByte)<<(AoResolution-outputBitsRemaining);
+
+			}
+			else 
+			{
+				//take top n bits
+			outputValue|=(unsigned int) (currentByte<<(8-outputBitsRemaining))<<(outputBitsRemaining);
+
+			}
+			// Serial1.println(outputValue,HEX);
+
+			if(packetBitsRemaining>outputBitsRemaining)			
+			{
+				//channel complete
+				// outputValue |= (unsigned int) (currentByte>>(8-outputBitsRemaining));
+				packetBitsRemaining-=outputBitsRemaining;
+				outputBitsRemaining=0;
+				analogWrite( channels[i], outputValue);
+			}
+			else
+			{
+				//packet byte complete
+				// outputValue|=(unsigned int) (currentByte<<(8-packetBitsRemaining))>>(8-outputBitsRemaining);
+				outputBitsRemaining -= packetBitsRemaining;
+				packetByteOffset++;
+				packetBitsRemaining=8;
+			}
+		}		
+	}
+	
+	return L_OK;
+}
 //--------------------------------------------------------DIGITAL-------------------------------------------------------
 
 int LinxWiringDevice::DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values)
@@ -316,7 +372,11 @@ int LinxWiringDevice::SpiOpenMaster(unsigned char channel)
 
 int LinxWiringDevice::SpiSetBitOrder(unsigned char channel, unsigned char bitOrder)
 {
+	#ifndef IS_M0
+	SPI.setBitOrder(bitOrder);
+	#else
 	SPI.setBitOrder((BitOrder) bitOrder);
+	#endif
 	return 0;
 }
 
@@ -798,10 +858,10 @@ int LinxWiringDevice::ServoClose(unsigned char numChans, unsigned char* chans)
 //--------------------------------------------------------GENERAL----------------------------------------------------------
 void LinxWiringDevice::NonVolatileWrite(int address, unsigned char data)
 {
-	// EEPROM.write(address, data);
+	EEPROM.write(address, data);
 }
 
 unsigned char LinxWiringDevice::NonVolatileRead(int address)
 {
-	return 0;//EEPROM.read(address);
+	return EEPROM.read(address);
 }

@@ -36,6 +36,15 @@ class LinxWiringDevice : public LinxDevice
 		unsigned long AiRefExtMin;							//Min External AI Ref Value (uV)
 		unsigned long AiRefExtMax;					    //Min External AI Ref Value (uV)		
 		
+		unsigned char NumAoRefIntVals;					//Number Of Internal Ao Reference Voltages
+		const unsigned long* AoRefIntVals;				//Supported Ao Reference Voltages (uV)
+		const int* AoRefCodes;								//Ao Ref Values (Ao Ref Macros In Wiring Case)
+		
+		unsigned long AoRefExtMin;							//Min External Ao Ref Value (uV)
+		unsigned long AoRefExtMax;					    //Min External Ao Ref Value (uV)		
+		
+
+
 		unsigned char NumUartSpeeds;					//Number Of Support UART Buads
 		unsigned long* UartSupportedSpeeds;			//Supported UART Bauds Frequencies
 		
@@ -58,7 +67,8 @@ class LinxWiringDevice : public LinxDevice
 		//Analog
 		virtual int AnalogRead(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int AnalogSetRef(unsigned char mode, unsigned long voltage);
-		
+		virtual int AnalogWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
+
 		//DIGITAL
 		virtual int DigitalWrite(unsigned char numChans, unsigned char* channels, unsigned char* values);
 		virtual int DigitalRead(unsigned char numChans, unsigned char* channels, unsigned char* values);

@@ -1,11 +1,11 @@
 /****************************************************************************************	
-**  This is example LINX firmware for use with the PJRC Teensy 3.1 with the serial 
+**  This is example LINX firmware for use with the Adafruit Feather M0 with the serial 
 **  interface enabled.
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
 **  
-**  Written By Sam Kristoff
+**  Written By Sam Kristoff, modified by CBC Girard
 **
 **  BSD2 License.
 ****************************************************************************************/
@@ -13,10 +13,10 @@
 //Include All Peripheral Libraries Used By LINX
 #include <SPI.h>
 #include <Wire.h>
-//#include <EEPROM.h>
+#include <FlashAsEEPROM.h>
 #include <Servo.h>
 
-//Include Device Specific Header From Sketch>>Import Library (In This Case LinxChipkitMax32.h)
+//Include Device Specific Header From Sketch>>Import Library (In This Case LinxAdafruitFeatherM0WiFi.h)
 //Also Include Desired LINX Listener From Sketch>>Import Library (In This Case LinxSerialListener.h)
 #include <LinxAdafruitFeatherM0WiFi.h>
 #include <LinxSerialListener.h>

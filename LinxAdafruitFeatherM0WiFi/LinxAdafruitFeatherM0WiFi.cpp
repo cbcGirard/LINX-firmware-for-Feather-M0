@@ -1,5 +1,5 @@
 /****************************************************************************************
-**  LINX AdafruitFeatherM0 Teensy 3.1 code
+**  LINX AdafruitFeatherM0 code
 **
 **  For more information see:           www.labviewmakerhub.com/linx
 **  For support visit the forums at:    www.labviewmakerhub.com/forums/linx
@@ -31,10 +31,12 @@ const unsigned long LinxAdafruitFeatherM0WiFi::m_AiRefIntVals[NUM_AI_INT_REFS] =
 const int LinxAdafruitFeatherM0WiFi::m_AiRefCodes[NUM_AI_INT_REFS] = {};
 
 //AO
-//None
+const unsigned char LinxAdafruitFeatherM0WiFi::m_AoChans[NUM_AO_CHANS]= {14};
+const unsigned long LinxAdafruitFeatherM0WiFi::m_AoRefIntVals[NUM_AO_INT_REFS]= {};
+const int LinxAdafruitFeatherM0WiFi::m_AoRefCodes[NUM_AO_INT_REFS]={};
 
 //DIGITAL
-const unsigned char LinxAdafruitFeatherM0WiFi::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}; 
+const unsigned char LinxAdafruitFeatherM0WiFi::m_DigitalChans[NUM_DIGITAL_CHANS] = {0, 1, 5, 6, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}; 
 
 //PWM
 const unsigned char LinxAdafruitFeatherM0WiFi::m_PwmChans[NUM_PWM_CHANS] = {5, 6, 9, 10, 11, 12, 13}; 
@@ -52,7 +54,7 @@ unsigned char LinxAdafruitFeatherM0WiFi::m_I2cChans[NUM_I2C_CHANS] = {0, 1};
 unsigned char LinxAdafruitFeatherM0WiFi::m_I2cRefCount[NUM_I2C_CHANS];			
 
 //UART
-unsigned char LinxAdafruitFeatherM0WiFi::m_UartChans[NUM_UART_CHANS] = {0, 1};
+unsigned char LinxAdafruitFeatherM0WiFi::m_UartChans[NUM_UART_CHANS] = {0,1};
 unsigned long LinxAdafruitFeatherM0WiFi::m_UartSupportedSpeeds[NUM_UART_SPEEDS] = {300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 31250, 38400, 57600, 115200};
 
 //SERVO
@@ -64,7 +66,7 @@ Servo* LinxAdafruitFeatherM0WiFi::m_Servos[NUM_SERVO_CHANS] =	{0, 0, 0, 0, 0, 0,
 LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
 {
 	//Family ID Set At Family Level
-	DeviceId = 0x03;	//Teensy 3.1
+	DeviceId = 0xFF;	//temp
 	DeviceNameLen = DEVICE_NAME_LEN;	 
 	DeviceName =  m_DeviceName;
 
@@ -81,6 +83,8 @@ LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
 	NumAiChans = NUM_AI_CHANS;
 	AiChans = m_AiChans;
 	AiResolution = AI_RES_BITS;
+	analogReadResolution(AiResolution);
+
 	AiRefSet = AI_REFV;
 		
 	AiRefDefault = AI_REFV;
@@ -94,8 +98,22 @@ LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
 	AiRefExtMax = 3300000;
 	
 	//AO
-	NumAoChans = 0;
-	AoChans = 0;
+	NumAoChans = NUM_AO_CHANS;
+	AoChans = m_AoChans;
+	AoResolution=AO_RES_BITS;
+	analogWriteResolution(AoResolution);
+	AoRefSet=AO_REFV;
+
+	AoRefDefault=AO_REFV;
+	AoRefSet=AO_REFV;
+	AoRefCodes=m_AoRefCodes;
+
+	NumAoRefIntVals=NUM_AO_INT_REFS;
+	AoRefIntVals=m_AoRefIntVals;
+
+	AoRefExtMin=0;
+	AoRefExtMax=3300000;
+
 	
 	//PWM
 	NumPwmChans = NUM_PWM_CHANS;
@@ -135,7 +153,7 @@ LinxAdafruitFeatherM0WiFi::LinxAdafruitFeatherM0WiFi()
 	Servos = m_Servos;
 	
 	//If Debuging Is Enabled Call EnableDebug()
-	#if DEBUG_ENABLED > 0
+	#if DEBUG_ENABLED >= 0
 		EnableDebug(DEBUG_ENABLED);
 	#endif
 }

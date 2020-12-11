@@ -474,7 +474,12 @@ int LinxListener::ProcessCommand(unsigned char* commandPacketBuffer, unsigned ch
 			break;
 		}
 		
-		//case 0x0065: //TODO Analog Write
+		case 0x0065: //TODO Analog Write
+		{
+			status=LinxDev->AnalogWrite(commandPacketBuffer[6], &commandPacketBuffer[7], &commandPacketBuffer[7+commandPacketBuffer[6]]);
+			StatusResponse(commandPacketBuffer, responsePacketBuffer, status);
+			break;
+		}
 		
 		//---0x0066 to 0x007F Reserved---
 		
