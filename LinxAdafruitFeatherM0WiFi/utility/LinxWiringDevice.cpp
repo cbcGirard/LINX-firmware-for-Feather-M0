@@ -36,9 +36,13 @@
 #include <SPI.h>
 #include <Wire.h>
 #ifndef IS_M0
-#include <EEPROM.h>
+	#include <EEPROM.h>
 #else
-#include <FlashAsEEPROM.h>
+	#include <FlashAsEEPROM.h>
+	#ifndef ADAFRUIT_FEATHER_M0
+	//Map SerialUSB to Serial for non-Feather Zero boards
+		#define Serial SerialUSB
+	#endif
 #endif
 #include <Servo.h>
 
